@@ -9,7 +9,6 @@ class DVSAScraper {
     this.dvsaBaseUrl = 'https://driverpracticaltest.dvsa.gov.uk';
   }
 
-  // Create axios instance with security headers
   createAxiosInstance() {
     return axios.create({
       timeout: this.timeout,
@@ -17,7 +16,8 @@ class DVSAScraper {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
         'Accept': 'application/json',
         'Accept-Language': 'en-GB,en;q=0.9',
-        'DNT': '1'
+        'DNT': '1',
+        'Referer': this.dvsaBaseUrl
       },
       validateStatus: function(status) {
         return status >= 200 && status < 500;
@@ -25,7 +25,6 @@ class DVSAScraper {
     });
   }
 
-  // Check for available slots with retry logic
   async checkSlots(centerId, testType = 'car') {
     let lastError = null;
 
@@ -48,7 +47,7 @@ class DVSAScraper {
           logger.info(`✓ Successfully retrieved data for center ${centerId}`, {
             slots_count: response.data.length || 0
           });
-          return response.data;
+          return response.data || [];
         }
 
         if (response.status === 429) {
@@ -84,7 +83,6 @@ class DVSAScraper {
     return [];
   }
 
-  // Check all London centers
   async checkAllCenters(centers) {
     const results = {};
     const availableSlots = [];
@@ -110,7 +108,6 @@ class DVSAScraper {
     return { results, availableSlots };
   }
 
-  // Get date range for next 30 days
   getDateRange() {
     const today = new Date();
     const maxDate = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
@@ -121,7 +118,6 @@ class DVSAScraper {
     };
   }
 
-  // Format date as YYYY-MM-DD
   formatDate(date) {
     const d = new Date(date);
     let month = '' + (d.getMonth() + 1);
@@ -134,7 +130,6 @@ class DVSAScraper {
     return [year, month, day].join('-');
   }
 
-  // Delay helper for retries
   delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }

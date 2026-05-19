@@ -8,7 +8,6 @@ class Notifier {
     this.desktopNotificationEnabled = config.desktop_notification !== false;
   }
 
-  // Send desktop notification
   sendDesktopNotification(title, options = {}) {
     if (!this.desktopNotificationEnabled) return;
 
@@ -26,39 +25,39 @@ class Notifier {
         }
       };
 
-      // Log notification
       logger.success('Desktop Notification Sent', notification);
-
       return notification;
     } catch (error) {
       logger.error('Failed to send desktop notification', { error: error.message });
     }
   }
 
-  // Play sound alert
   playSoundAlert() {
     if (!this.soundEnabled) return;
 
     try {
       logger.info('Sound alert triggered');
-      // Sound alert code for browser
       return `
         (function() {
-          const audioContext = window.AudioContext || window.webkitAudioContext;
-          const ctx = new audioContext();
-          const oscillator = ctx.createOscillator();
-          const gainNode = ctx.createGain();
+          try {
+            const audioContext = window.AudioContext || window.webkitAudioContext;
+            const ctx = new audioContext();
+            const oscillator = ctx.createOscillator();
+            const gainNode = ctx.createGain();
 
-          oscillator.connect(gainNode);
-          gainNode.connect(ctx.destination);
-          oscillator.frequency.value = 800;
-          oscillator.type = 'sine';
+            oscillator.connect(gainNode);
+            gainNode.connect(ctx.destination);
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
 
-          gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+            gainNode.gain.setValueAtTime(0.3, ctx.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
 
-          oscillator.start(ctx.currentTime);
-          oscillator.stop(ctx.currentTime + 0.5);
+            oscillator.start(ctx.currentTime);
+            oscillator.stop(ctx.currentTime + 0.5);
+          } catch(e) {
+            console.error('Audio error:', e);
+          }
         })();
       `;
     } catch (error) {
@@ -66,7 +65,6 @@ class Notifier {
     }
   }
 
-  // Send browser push notification
   sendPushNotification(slot) {
     if (!this.pushEnabled) return;
 
@@ -91,7 +89,6 @@ class Notifier {
     }
   }
 
-  // Send combined notification
   notifySlotFound(slot) {
     logger.success(`SLOT FOUND: ${slot.center} on ${slot.date} at ${slot.time}`);
 
