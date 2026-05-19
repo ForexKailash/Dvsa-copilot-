@@ -1,0 +1,27 @@
+{
+  "name": "dvsa-copilot",
+  "version": "1.0.0",
+  "description": "Automated DVSA driving test slot monitor for London test centres",
+  "main": "monitor.js",
+  "scripts": {
+    "start": "node monitor.js",
+    "dev": "nodemon monitor.js",
+    "web": "node server.js",
+    "test": "node test.js"
+  },
+  "keywords": ["dvsa", "driving", "slots", "monitor"],
+  "author": "ForexKailash",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
+    "node-fetch": "^2.7.0",
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}

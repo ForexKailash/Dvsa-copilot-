@@ -1,0 +1,24 @@
+{
+  "monitoring": {
+    "check_interval_ms": 300000,
+    "timeout_ms": 30000,
+    "max_retries": 3,
+    "retry_delay_ms": 5000
+  },
+  "notifications": {
+    "browser_push": true,
+    "sound_alert": true,
+    "desktop_notification": true,
+    "log_to_file": true
+  },
+  "security": {
+    "verify_ssl": true,
+    "use_proxy": false,
+    "rate_limit_requests": true
+  },
+  "logging": {
+    "level": "info",
+    "max_file_size": "10m",
+    "max_files": 14
+  }
+}
